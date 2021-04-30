@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.js"
+            integrity="sha512-opXrgVcTHsEVdBUZqTPlW9S8+99hNbaHmXtAdXXc61OUU6gOII5ku/PzZFqexHXc3hnK8IrJKHo+T7O4GRIJcw=="
+            crossorigin="anonymous"></script>
+    <!--    for future-->
+    <!--    <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet" />-->
+</head>
+<body>
+
+<!--<h1>Form</h1>-->
+<!--<form th:action="@{/countries/test}" th:object="${}" method="get">-->
+<!--    <p>Name: <input type="text" th:field="*{name}"/></p>-->
+<!--    <p><input type="submit" value="Submit"/></p>-->
+<!--</form>-->
+<!--<div>-->
+<!--    <input type="text" name="country" placeholder="country">-->
+<!--    <button onsubmit="submit">Get Information</button>-->
+<!--</div>-->
+<script src="path/to/chartjs/dist/chart.js"></script>
+<canvas id="myChart" width="100%" height="auto"></canvas>
+<script type="text/javascript" th:src="@{/js/chart-action.js}"></script>
+</body>
+</html>
