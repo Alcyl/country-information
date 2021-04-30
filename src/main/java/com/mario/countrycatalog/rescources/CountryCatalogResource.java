@@ -3,7 +3,7 @@ package com.mario.countrycatalog.rescources;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mario.countrycatalog.models.Corona.CoronaInformation;
-import com.mario.countrycatalog.models.CountryInformation;
+import com.mario.countrycatalog.models.Country.CountryInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;

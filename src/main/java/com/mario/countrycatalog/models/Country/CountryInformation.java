@@ -1,4 +1,4 @@
-package com.mario.countrycatalog.models;
+package com.mario.countrycatalog.models.Country;
 
 import java.util.List;
 

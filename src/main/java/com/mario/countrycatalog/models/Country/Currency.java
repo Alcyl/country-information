@@ -1,4 +1,4 @@
-package com.mario.countrycatalog.models;
+package com.mario.countrycatalog.models.Country;
 
 public class Currency {
     private String code;
