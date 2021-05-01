@@ -6,22 +6,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.js"
             integrity="sha512-opXrgVcTHsEVdBUZqTPlW9S8+99hNbaHmXtAdXXc61OUU6gOII5ku/PzZFqexHXc3hnK8IrJKHo+T7O4GRIJcw=="
             crossorigin="anonymous"></script>
-    <!--    for future-->
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!--    TODO: for future-->
     <!--    <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet" />-->
 </head>
 <body>
+<!--<p th:text="${coronaInformation}"></p>-->
+<h1>New Global Corona Information</h1>
+<script th:inline="javascript">
+    let newConfirmed = [[${coronaInformation.Global.NewConfirmed}]];
+    let newDeaths = [[${coronaInformation.Global.NewDeaths}]];
+    let newRecovered = [[${coronaInformation.Global.NewRecovered}]];
 
-<!--<h1>Form</h1>-->
-<!--<form th:action="@{/countries/test}" th:object="${}" method="get">-->
-<!--    <p>Name: <input type="text" th:field="*{name}"/></p>-->
-<!--    <p><input type="submit" value="Submit"/></p>-->
-<!--</form>-->
-<!--<div>-->
-<!--    <input type="text" name="country" placeholder="country">-->
-<!--    <button onsubmit="submit">Get Information</button>-->
-<!--</div>-->
-<script src="path/to/chartjs/dist/chart.js"></script>
-<canvas id="myChart" width="100%" height="auto"></canvas>
+    $(document).ready(function() {
+        buildChart(newConfirmed, newDeaths, newRecovered);
+    });
+</script>
+
+
+<canvas id="coronaChart" width="100%" height="auto"></canvas>
 <script type="text/javascript" th:src="@{/js/chart-action.js}"></script>
 </body>
 </html>
