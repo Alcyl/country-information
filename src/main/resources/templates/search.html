@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+  <title>Getting Started: Serving Web Content</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.js"
+          integrity="sha512-opXrgVcTHsEVdBUZqTPlW9S8+99hNbaHmXtAdXXc61OUU6gOII5ku/PzZFqexHXc3hnK8IrJKHo+T7O4GRIJcw=="
+          crossorigin="anonymous"></script>
+  <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link type="text/css" th:href="@{/removeMe/css/styles.css}" rel="stylesheet"/>
+</head>
+<body>
+<script th:inline="javascript">
+  $(document).ready(function() {
+    buildLineChart();
+  });
+</script>
+<div id="lineDiv">
+  <h1>Country Corona Information</h1>
+  <canvas id="coronaLineChart" width="100%" height="auto"></canvas>
+</div>
+<script type="text/javascript" th:src="@{/removeMe/js/chart-action.js}"></script>
+</body>
+</html>
