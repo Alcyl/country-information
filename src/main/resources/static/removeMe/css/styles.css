@@ -1,0 +1,11 @@
+#pieDiv {
+    margin: 0 25px 0 0;
+    float: left;
+    display: inline-block;
+    width: 48%;
+}
+
+#barDiv {
+    width: 50%;
+    display: inline-block;
+}
