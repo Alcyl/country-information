@@ -10,7 +10,10 @@
     <link type="text/css" th:href="@{/removeMe/css/styles.css}" rel="stylesheet"/>
 </head>
 <body>
-<!--<p th:text="${coronaInformation}"></p>-->
+<form th:action="@{/search/}" id="searchForm" onsubmit="setURL()">
+    <input type="text" id="value">
+    <input type="submit" value="Search"/>
+</form>
 <script th:inline="javascript">
     let newConfirmed = [[${coronaInformation.Global.NewConfirmed}]];
     let newDeaths = [[${coronaInformation.Global.NewDeaths}]];
