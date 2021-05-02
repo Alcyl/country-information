@@ -75,8 +75,6 @@ public class CountryCatalogResource {
     public CoronaInformation getAllCoronaInformations() {
         CoronaInformation coronaInformation = restTemplate.getForObject(urlCorona + "summary", CoronaInformation.class);
         assert coronaInformation != null;
-        System.out.println(coronaInformation.getGlobal().getNewConfirmed());
-
 
         return coronaInformation;
     }
@@ -84,7 +82,6 @@ public class CountryCatalogResource {
     @RequestMapping("/")
     public String test(Model model) {
         CoronaInformation coronaInformation = restTemplate.getForObject(urlCorona + "summary", CoronaInformation.class);
-//        System.out.println(coronaInformation.getGlobal().getNewConfirmed());
         model.addAttribute("coronaInformation", coronaInformation);
 
         return "index";
