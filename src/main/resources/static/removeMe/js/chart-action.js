@@ -65,3 +65,45 @@ function buildBarChart(totalConfirmed, totalDeaths, totalRecovered) {
         },
     });
 }
+
+function buildLineChart() {
+    let ctx = document.getElementById('coronaLineChart');
+    const labels = [];
+    for(i = 1;i<13;i++){
+        labels.push(i);
+    }
+
+    const coronaBarChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'My First Dataset',
+                data: [65, 59, 80, 81, 56, 55, 40],
+                fill: true,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        }
+    })
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function setURL() {
+// TODO: replace URL
+    var actionSrc = "http://localhost:8081/search/" + document.getElementById("value").value;
+    var searchForm = document.getElementById('searchForm');
+    searchForm.action = actionSrc ;
+}
