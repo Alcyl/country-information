@@ -3,6 +3,7 @@ package com.mario.countrycatalog.rescources;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mario.countrycatalog.models.Corona.CoronaInformation;
+import com.mario.countrycatalog.models.Corona.CountryLiveStatus;
 import com.mario.countrycatalog.models.Country.CountryInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 // @RestController
 @Controller
@@ -80,11 +86,39 @@ public class CountryCatalogResource {
     }
 
     @RequestMapping("/")
-    public String test(Model model) {
+    public String index(Model model) {
         CoronaInformation coronaInformation = restTemplate.getForObject(urlCorona + "summary", CoronaInformation.class);
         model.addAttribute("coronaInformation", coronaInformation);
 
         return "index";
+    }
+
+    @RequestMapping("/search/{countryName}")
+    public String searchCountry(@PathVariable(value="countryName") String countryName, Model model) {
+        CountryLiveStatus[] coronaInformationByCountry = restTemplate.getForObject(urlCorona + "live/country/" + countryName, CountryLiveStatus[].class);
+        model.addAttribute("countryName", coronaInformationByCountry);
+
+        Stream<CountryLiveStatus> countryLiveStatusStream = Arrays.stream(coronaInformationByCountry).filter(distinctByKey(CountryLiveStatus::getProvince));
+        countryLiveStatusStream.forEach((CountryLiveStatus element)-> {
+            System.out.println(element.getProvince());
+        });
+
+        return "search";
+    }
+
+
+
+
+
+
+
+
+
+
+    // get only distinct entries
+    public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Set<Object> seen = ConcurrentHashMap.newKeySet();
+        return t -> seen.add(keyExtractor.apply(t));
     }
 
 //    TODO: GET Live By Country All Status
