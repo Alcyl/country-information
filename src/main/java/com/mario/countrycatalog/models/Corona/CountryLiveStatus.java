@@ -1,5 +1,7 @@
 package com.mario.countrycatalog.models.Corona;
 
+import java.util.Date;
+
 public class CountryLiveStatus {
     public String ID;
     public String Country;
@@ -13,7 +15,7 @@ public class CountryLiveStatus {
     public int Deaths;
     public int Recovered;
     public int Active;
-    public java.util.Date Date;
+    public Date Date;
 
     public String getID() {
         return ID;
