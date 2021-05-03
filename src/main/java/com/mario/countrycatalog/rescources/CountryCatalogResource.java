@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mario.countrycatalog.models.Corona.CoronaInformation;
 import com.mario.countrycatalog.models.Corona.CountryLiveStatus;
+import com.mario.countrycatalog.models.Corona.PlainCountry;
 import com.mario.countrycatalog.models.Country.CountryInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -106,7 +107,26 @@ public class CountryCatalogResource {
         return "search";
     }
 
+    // TODO: extend form and js with radio buttons for status and date time picker
+    // TODO: class for parameter
+    @RequestMapping("/search/{countryName}/status/{statusName}?from={from}&to={to}")
+    public String getCountryStatusByRange(
+            @PathVariable(value="countryName") String countryName,
+            @PathVariable(value="statusName") String statusName,
+            @PathVariable(value="from") String from,
+            @PathVariable(value="to") String to,
+            Model model) {
+        PlainCountry[] plainCountryStatus = restTemplate.getForObject(urlCorona + "/country/" + countryName + "/status" + statusName
+                + "?from=" + from + "&to=" + to, PlainCountry[].class);
+        model.addAttribute("plainCountry", plainCountryStatus);
 
+//        Stream<CountryLiveStatus> countryLiveStatusStream = Arrays.stream(coronaInformationByCountry).filter(distinctByKey(CountryLiveStatus::getProvince));
+//        countryLiveStatusStream.forEach((CountryLiveStatus element)-> {
+//            System.out.println(element.getProvince());
+//        });
+
+        return "search";
+    }
 
 
 
