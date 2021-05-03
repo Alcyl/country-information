@@ -5,8 +5,8 @@ For the displaying the diagrams the chart.js library is used.
 
 The project is currently in progress.
 
-###APIs:
-####Country-Information:
+### APIs:
+#### Country-Information:
 https://restcountries.eu/
-####Corona-Information:
+#### Corona-Information:
 https://documenter.getpostman.com/view/10808728/SzS8rjbc#b07f97ba-24f4-4ebe-ad71-97fa35f3b683
