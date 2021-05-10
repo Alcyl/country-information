@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mario.countrycatalog.models.Corona.CoronaInformation;
 import com.mario.countrycatalog.models.Corona.CountryLiveStatus;
-import com.mario.countrycatalog.models.Corona.PlainCountry;
+import com.mario.countrycatalog.models.Corona.CountryLiveWithDateRange;
 import com.mario.countrycatalog.models.Country.CountryInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,9 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -63,7 +61,7 @@ public class CountryCatalogResource {
             List<CountryInformation> cis = objectMapper.readValue(
                     new URL(urlCountry + "name/" + countryName),
                     new TypeReference<List<CountryInformation>>() {
-            });
+                    });
 
             // print borders from obj
             cis.forEach((CountryInformation element) -> {
@@ -95,44 +93,49 @@ public class CountryCatalogResource {
     }
 
     @RequestMapping("/search/{countryName}")
-    public String searchCountry(@PathVariable(value="countryName") String countryName, Model model) {
+    public String searchCountry(@PathVariable(value = "countryName") String countryName, Model model) {
         CountryLiveStatus[] coronaInformationByCountry = restTemplate.getForObject(urlCorona + "live/country/" + countryName, CountryLiveStatus[].class);
         model.addAttribute("countryName", coronaInformationByCountry);
 
         Stream<CountryLiveStatus> countryLiveStatusStream = Arrays.stream(coronaInformationByCountry).filter(distinctByKey(CountryLiveStatus::getProvince));
-        countryLiveStatusStream.forEach((CountryLiveStatus element)-> {
+        countryLiveStatusStream.forEach((CountryLiveStatus element) -> {
             System.out.println(element.getProvince());
         });
 
         return "search";
     }
 
-    // TODO: extend form and js with radio buttons for status and date time picker
-    // TODO: class for parameter
-    @RequestMapping("/search/{countryName}/status/{statusName}?from={from}&to={to}")
-    public String getCountryStatusByRange(
-            @PathVariable(value="countryName") String countryName,
-            @PathVariable(value="statusName") String statusName,
-            @PathVariable(value="from") String from,
-            @PathVariable(value="to") String to,
-            Model model) {
-        PlainCountry[] plainCountryStatus = restTemplate.getForObject(urlCorona + "/country/" + countryName + "/status" + statusName
-                + "?from=" + from + "&to=" + to, PlainCountry[].class);
-        model.addAttribute("plainCountry", plainCountryStatus);
 
-//        Stream<CountryLiveStatus> countryLiveStatusStream = Arrays.stream(coronaInformationByCountry).filter(distinctByKey(CountryLiveStatus::getProvince));
-//        countryLiveStatusStream.forEach((CountryLiveStatus element)-> {
-//            System.out.println(element.getProvince());
-//        });
+    /**
+     * GET Information by date and country. Time is ignored 00:00:00Z
+     * TODO: rethink monthly view
+     * By Country Live
+     * https://api.covid19api.com/country/south-africa/status/confirmed/live?from=2020-03-01T00:00:00Z&to=2020-04-01T00:00:00Z
+     * status: confirmed, recovered, deaths
+     */
+    @RequestMapping("/search/{countryName}/{statusName}/{from}/{to}")
+    public String getCountryStatusByRange(
+            @PathVariable(value = "countryName") String countryName,
+            @PathVariable(value = "statusName") String statusName,
+            @PathVariable(value = "from") String from,
+            @PathVariable(value = "to") String to,
+            Model model) {
+        CountryLiveWithDateRange[] countryLiveWithDateRange = restTemplate.getForObject(urlCorona + "/country/" +
+                countryName + "/status/" + statusName + "/live?from=" + from + "&to=" + to, CountryLiveWithDateRange[].class);
+        model.addAttribute("countryLiveWithDateRange", countryLiveWithDateRange);
+
+        List<Integer> filteredList = new ArrayList<Integer>();
+        for (CountryLiveWithDateRange element : countryLiveWithDateRange) {
+            int lastDayOfMonth = element.getDate().getActualMaximum(Calendar.DATE);
+            int day = element.getDate().get(Calendar.DAY_OF_MONTH);
+            if(lastDayOfMonth == day) {
+                filteredList.add(element.getCases());
+            }
+        }
+        model.addAttribute("coronaEndOfMonth", filteredList);
 
         return "search";
     }
-
-
-
-
-
-
 
 
     // get only distinct entries
