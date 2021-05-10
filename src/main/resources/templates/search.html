@@ -11,8 +11,10 @@
 </head>
 <body>
 <script th:inline="javascript">
+  let confirmedByMonth = [[${coronaEndOfMonth}]];
+  console.log(confirmedByMonth);
   $(document).ready(function() {
-    buildLineChart();
+    buildLineChart(confirmedByMonth);
   });
 </script>
 <div id="lineDiv">
