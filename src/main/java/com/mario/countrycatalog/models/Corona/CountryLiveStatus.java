@@ -1,7 +1,8 @@
 package com.mario.countrycatalog.models.Corona;
 
 import java.util.Date;
-
+// Live By Country And Status
+// https://api.covid19api.com/live/country/south-africa/status/confirmed
 public class CountryLiveStatus {
     public String ID;
     public String Country;
