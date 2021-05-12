@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
@@ -113,15 +114,15 @@ public class CountryCatalogResource {
      * https://api.covid19api.com/country/south-africa/status/confirmed/live?from=2020-03-01T00:00:00Z&to=2020-04-01T00:00:00Z
      * status: confirmed, recovered, deaths
      */
-    @RequestMapping("/search/{countryName}/{statusName}/{from}/{to}")
+    @RequestMapping("/search")
     public String getCountryStatusByRange(
-            @PathVariable(value = "countryName") String countryName,
-            @PathVariable(value = "statusName") String statusName,
-            @PathVariable(value = "from") String from,
-            @PathVariable(value = "to") String to,
+            @RequestParam(value = "countryName", defaultValue = "germany") String countryName,
+            @RequestParam(value = "statusName", defaultValue = "confirmed") String statusName,
+            @RequestParam(value = "from", defaultValue = "2020-01-01T00:00:00Z") String from,
+            @RequestParam(value = "to", defaultValue = "2020-12-01T00:00:00Z") String to,
             Model model) {
         CountryLiveWithDateRange[] countryLiveWithDateRange = restTemplate.getForObject(urlCorona + "/country/" +
-                countryName + "/status/" + statusName + "/live?from=" + from + "&to=" + to, CountryLiveWithDateRange[].class);
+                countryName + "/status/" + statusName + "/live?from=" + from  + "T00:00:00Z" + "&to=" + to + "T00:00:00Z", CountryLiveWithDateRange[].class);
         model.addAttribute("countryLiveWithDateRange", countryLiveWithDateRange);
 
         List<Integer> filteredList = new ArrayList<Integer>();
