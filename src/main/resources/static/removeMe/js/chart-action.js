@@ -68,8 +68,20 @@ function buildBarChart(totalConfirmed, totalDeaths, totalRecovered) {
 
 function buildLineChart(coronaEndOfMonth) {
     let ctx = document.getElementById('coronaLineChart');
+//    TODO: x-Achse Beschriftung und auf Datum anpassen, in andere Methode auslagern. muss in die Methode die in der Form aufgerufen wird.
+//    let startMonth = document.getElementById("from").value;
+//    console.log(startMonth);
+//    let endMonth = document.getElementById("to").value;
+//    console.log(endMonth);
+
+
+//    const labels = [];
+//    for(month = startMonth.getMonth();month <= endMonth.getMonth();month++){
+//        labels.push(month);
+//    }
+
     const labels = [];
-    for(i = 1;i<13;i++){
+    for(i = 1;i <= 24;i++){
         labels.push(i);
     }
 
@@ -89,21 +101,9 @@ function buildLineChart(coronaEndOfMonth) {
 };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 function setURL() {
 // TODO: replace URL
-    var actionSrc = "http://localhost:8081/search/" + document.getElementById("value").value;
+    var actionSrc = "http://localhost:8081/search";
     var searchForm = document.getElementById('searchForm');
     searchForm.action = actionSrc ;
 }
