@@ -12,7 +12,26 @@
 <body>
 <!--TODO: extend form and js with radio buttons for status and date time picker-->
 <form th:action="@{/search/}" id="searchForm" onsubmit="setURL()">
-    <input type="text" id="value">
+    <label for="countryName">Country: </label>
+    <input type="text" id="countryName" name="countryName">
+    <div id="radioButtonDiv">
+        <input type="radio" id="confirmed" name="statusName" value="confirmed">
+        <label for="confirmed"> Confirmed</label>
+        <input type="radio" id="recovered" name="statusName" value="recovered">
+        <label for="recovered"> Recovered</label>
+        <input type="radio" id="deaths" name="statusName" value="deaths">
+        <label for="deaths"> Deaths</label>
+    </div>
+    <div>
+        <label>
+            Enter from date:
+            <input type="date" name="from" id="from">
+        </label>
+        <label>
+            Enter to date:
+            <input type="date" name="to" id="to">
+        </label>
+    </div>
     <input type="submit" value="Search"/>
 </form>
 <script th:inline="javascript">
